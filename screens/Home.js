@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, SafeAreaView, FlatList, Image, TouchableOpacity, TextInput } from "react-native";
+import { ColorSpace } from "react-native-reanimated";
 import { COLORS, dummyData, FONTS, SIZES, images, icons } from "../constants";
 
 const Home = () =>{
@@ -34,6 +35,44 @@ const Home = () =>{
         )
     }
 
+    function renderSeeRecipieCard()
+    {
+        return(
+            <View style={styles.card}>
+                <View style={styles.cardCon}>
+                    <Image source={images.recipe} style={{width: 80, height: 80}} />
+                </View>
+                <View style={styles.cardCon1}>
+                    <Text style={styles.cardCon1Text}>
+                        You have following products that you have't tried yet
+                    </Text>
+                    <TouchableOpacity style={{marginTop: 10}} >
+                        <Text style={styles.seeMore} >See More Products</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        )
+    }
+
+    function renderLendingSection(){
+        return(
+            <View style={{marginTop: SIZES.radius}}>
+                <Text style={{marginHorizontal: SIZES.padding, ...FONTS.h2}}> Top Prodcuts</Text>
+                <FlatList 
+                    data={dummyData.trendingRecipes}
+                    horizontal
+                    showsHorizontalScrollIndicator = {false}
+                    keyExtractor={(item)=> item.id.toString()}
+                    renderItem = {({item, index})=>{
+                        return(
+                            <Text>{item.name}</Text>
+                        )
+                    }}
+                />
+            </View>
+        )
+    }
+
     return(
         <SafeAreaView style={styles.container}>
             <FlatList
@@ -45,6 +84,8 @@ const Home = () =>{
                     <View>
                         {renderHeader()}
                         {renderSearch()}
+                        {renderSeeRecipieCard()}
+                        {renderLendingSection()}
                     </View>
                 }
             />
@@ -98,6 +139,31 @@ const styles = StyleSheet.create({
         marginLeft: SIZES.radius,
         ...FONTS.body3,
         flex: 1,
+    },
+    card:{
+        flexDirection: 'row',
+        marginTop: SIZES.radius,
+        marginHorizontal: SIZES.padding,
+        borderRadius: 10,
+        backgroundColor: COLORS.lightGreen
+    },
+    cardCon:{
+        width: 100,
+        alignContent: 'center',
+        justifyContent: 'center'
+    },
+    cardCon1:{
+        flex: 1,
+        paddingVertical: SIZES.radius
+    },
+    cardCon1Text:{
+        width: "70%",
+        ...FONTS.body4
+    },
+    seeMore:{
+        color: COLORS.darkGreen,
+        ...FONTS.h4,
+        textDecorationLine: 'underline'
     }
 })
 
