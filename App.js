@@ -7,6 +7,7 @@ import Tabs from './navigations/tab';
 const Stack = createNativeStackNavigator();
 
 const App = () =>{
+  return(
   <NavigationContainer>
       <Stack.Navigator 
         screenOptions={{headerShown: false}} 
@@ -16,6 +17,7 @@ const App = () =>{
           <Stack.Screen name='Recipie' component={Recipie} />
         </Stack.Navigator>
   </NavigationContainer>
+  );
 }
 
 export default App;

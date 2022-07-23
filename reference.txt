@@ -1,0 +1,8 @@
+C:\Users\Ivagam\AppData\Local\Android\Sdk\emulator
+
+emulator -avd Pixel_XL_API_30
+adb kill-server
+
+adb reverse tcp:8081 tcp:8081
+
+adb -s emulator-5554 reverse tcp:8081 tcp:8081
