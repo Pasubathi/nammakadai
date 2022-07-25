@@ -1,9 +1,11 @@
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
 import { View, Text, StyleSheet, SafeAreaView, FlatList, Image, TouchableOpacity, TextInput } from "react-native";
-import { ColorSpace } from "react-native-reanimated";
 import { COLORS, dummyData, FONTS, SIZES, images, icons } from "../constants";
+import { CategoryCard, TopProductCard } from "../components";
 
 const Home = () =>{
+    const navigation = useNavigation();
 
     function renderHeader(){
         return(
@@ -65,10 +67,32 @@ const Home = () =>{
                     keyExtractor={(item)=> item.id.toString()}
                     renderItem = {({item, index})=>{
                         return(
-                            <Text>{item.name}</Text>
+                            <TopProductCard 
+                                key={index}
+                                containerStyle={{
+                                    marginLeft: index === 0 ? SIZES.radius : 0,
+                                }}
+                                recepieItem={item}
+                                onPress={()=> navigation.navigate("Recipie", {recipie: item})}
+                            />
                         )
                     }}
                 />
+            </View>
+        )
+    }
+
+    function renderCategoryHeader(){
+        return(
+            <View 
+                style={styles.categoryContainer}
+            >
+                <Text style={styles.categoryTitle} > Categories </Text>
+                <TouchableOpacity >
+                    <Text style={styles.catDetails}>
+                        View All
+                    </Text>
+                </TouchableOpacity>
             </View>
         )
     }
@@ -86,7 +110,19 @@ const Home = () =>{
                         {renderSearch()}
                         {renderSeeRecipieCard()}
                         {renderLendingSection()}
+                        {renderCategoryHeader()}
                     </View>
+                }
+                renderItem={({item})=>{
+                    return <CategoryCard 
+                            categogryItem={item}
+                            containerStyle={styles.catStyle}
+                            onPress={()=> navigation.navigate("Recipie", {recipie: item})}
+                        />
+                }}
+
+                ListFooterComponent={
+                    <View style={{ marginBottom: 100}} />
                 }
             />
         </SafeAreaView>
@@ -164,6 +200,23 @@ const styles = StyleSheet.create({
         color: COLORS.darkGreen,
         ...FONTS.h4,
         textDecorationLine: 'underline'
+    },
+    categoryContainer:{
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 20,
+        marginHorizontal: SIZES.radius
+    },
+    categoryTitle:{
+        flex: 1,
+        ...FONTS.h2
+    },
+    catDetails:{
+        color: COLORS.gray,
+        ...FONTS.body4
+    },
+    catStyle:{
+        marginHorizontal: SIZES.padding,
     }
 })
 
